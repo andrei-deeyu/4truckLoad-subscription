@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <form id="theForm" method="POST">
+
+    </form>
+  </body>
+  <script>
+    let email = window.location.search.split("=")[1].split('?planName')[0];
+    let planName = window.location.search.split("=")[2];
+
+    document.getElementById('theForm').action = '/create-checkout-session/' + email + '/' + planName;
+    document.getElementById('theForm').submit();
+  </script>
+</html>
