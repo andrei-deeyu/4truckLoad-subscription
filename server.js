@@ -39,8 +39,8 @@ function respondError500(res, next) {
 app.post('/create-checkout-session/:email/:planName', async (req, res) => {
   let price;
   console.log(req.params)
-  if( req.params.planName == 'transportator' ) price = 'price_1JpJFzHywyy3Or57fw62xl1C';
-  else if (req.params.planName == 'complet' ) price = 'price_1JpsFNHywyy3Or57F25OPOXG';
+  if( req.params.planName == 'transportator' ) price = 'price_1JquclHywyy3Or57lz6LyWBb';
+  else if (req.params.planName == 'complet' ) price = 'price_1JqufjHywyy3Or57tT32HdKV';
   else return;
 
   const session = await stripe.checkout.sessions.create({
