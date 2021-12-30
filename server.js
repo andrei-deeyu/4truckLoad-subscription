@@ -63,7 +63,9 @@ app.post('/create-checkout-session/:email/:planName', async (req, res) => {
   res.redirect(303, session.url)
 });
 
-
+/* make the client renew accessToken silently, by calling /loginWithRedirect(prompt=none)
+   this will avoid transferring the token over HTTPS, avoid CSFR attack, thus reducing the risk overall by enducing itself
+ */
 async function assignSubscription(email, paymentDescription, userID) {
   auth0.clientCredentialsGrant({ audience: 'https://dev-h1e424j0.us.auth0.com/api/v2/'}, async (err, response) => {
     if (err) return respondError500(res, next);
@@ -91,14 +93,7 @@ async function assignSubscription(email, paymentDescription, userID) {
       })
       .then(( res ) => res.json() )
       .then(( response ) => {
-        console.log(response);
-        console.log('done motherfucker sergiule')
-        // make the client renew accessToken silently, by calling /loginWithRedirect(prompt=none)
-        // this will avoid transferring the token over HTTPS, avoid CSFR attack, thus reducing the risk overall by enducing itself
-        if( response ) { // is equally to ..
-          return response.json({"wtf": "who reads it? stripe servers?"})
-        }
-
+        if( response ) return response.json({})
       })
   });
 }
@@ -143,7 +138,6 @@ async function assignSubscription(email, paymentDescription, userID) {
       );
 
       if(event.data.object.payment_status == 'paid') {
-        console.log('aci e bun zero')
         let email = event.data.object.customer_details.email; // the one from Stripe payment
 
         await assignSubscription(email, line_items.data[0].description);
